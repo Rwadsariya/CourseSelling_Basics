@@ -76,4 +76,4 @@ coverage/
 
 # Build files
 dist/
-build/
+build/.env
