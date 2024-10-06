@@ -82,17 +82,18 @@ userRouter.post("/signin", async(req, res) => {
   }
 });
 
-userRouter.post("/course", userMiddleware, async (req, res) => {
-  res.json({
-    message: "Hello World",
-  });
+userRouter.post("/purchases", userMiddleware, async (req, res) => {
+    const userId = req.userId;
+    const purchases = await purchaseModel.find({
+      userId
+    })
+
+    res.json({
+      courses: purchases
+    })
 });
 
-userRouter.get("/course/bulk", userMiddleware, async (req, res) => {
-  res.json({
-    message: "Hello World",
-  });
-});
+
 
 module.exports = {
   userRouter,

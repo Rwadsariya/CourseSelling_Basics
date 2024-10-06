@@ -3,7 +3,7 @@ const { JWT_ADMIN_TOKEN_SECRET } = require("../config");
 
 function adminMiddleware(req, res, next) {
     const token = req.headers.token;
-    const decoded_token = jwt.verify(token,JWT_USSER_TOKEN_SECRET)
+    const decoded_token = jwt.verify(token,JWT_ADMIN_TOKEN_SECRET)
 
     if(decoded_token){
         req.userId = decoded_token.id;
