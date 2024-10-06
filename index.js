@@ -9,17 +9,17 @@ const { adminRouter} = require('./routes/admin')
 
 const app = express();
 
+
+mongoose.connect(process.env.MONGODB_URI);
+
 app.use(express.json());
+
+app.use(express.json())
 
 app.use("/user", userRouter);
 app.use("/course",courseRouter);
 app.use("/admin",adminRouter);
 
 
-async function main(){
-    await mongoose.connect(process.env.MONGODB_URI);
-    app.listen(3000);
-    console.log("port running on 3000");
-}
+app.listen(3000);
 
-main();
