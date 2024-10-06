@@ -4,9 +4,10 @@ const jwt = require('jsonwebtoken');
 const { z } = require('zod');
 
 const adminRouter = Router();
-const { adminModel } = require("../db")
+const { adminModel, courseModel } = require("../db")
+const { adminMiddleware } = require("../middleware/admin")
 
-const JWT_ADMIN_TOKEN_SECRET = "adminfor1231"
+const { JWT_ADMIN_TOKEN_SECRET } = require("../config");
 
 adminRouter.post("/signup", async (req, res) => {
     const rqBody = z.object({
@@ -80,22 +81,32 @@ adminRouter.post("/signin", async(req,res)=>{
     }
 })
 
-adminRouter.get("/bulk",(req,res)=>{
+adminRouter.get("/course/bulk",adminMiddleware, async (req,res)=>{
     res.json({
         message:"Hello World"
     })
 })
 
-adminRouter.post("/",(req,res)=>{
+adminRouter.post("/course",adminMiddleware, async (req,res)=>{
+    const adminId = req.userId
+
+    const {title,description,price,imgUrl } = req.body;
+
+    await courseModel.create({
+        title,
+        description,
+        price,
+        imgUrl,
+        creatorId: adminId
+    })
+
     res.json({
-        message:"Hello World"
+        message:"Course created successfully by admin"
     })
 })
 
-adminRouter.put("/",(req,res)=>{
-    res.json({
-        message:"Hello World"
-    })
+adminRouter.put("/course",adminMiddleware, async (req,res)=>{
+
 })
 
 

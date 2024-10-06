@@ -5,8 +5,9 @@ const jwt = require("jsonwebtoken");
 
 const userRouter = Router();
 const { userModel } = require("../db");
+const { userMiddleware } = require("../middleware/user");
 
-const JWT_TOKEN_SECRET = "alab132"
+const { JWT_TOKEN_SECRET } = require("../config");
 
 
 userRouter.post("/signup", async (req, res) => {
@@ -81,13 +82,13 @@ userRouter.post("/signin", async(req, res) => {
   }
 });
 
-userRouter.post("/course", (req, res) => {
+userRouter.post("/course", userMiddleware, async (req, res) => {
   res.json({
     message: "Hello World",
   });
 });
 
-userRouter.get("/course/bulk", (req, res) => {
+userRouter.get("/course/bulk", userMiddleware, async (req, res) => {
   res.json({
     message: "Hello World",
   });
